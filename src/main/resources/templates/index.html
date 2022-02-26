@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Credit App!</title>
+</head>
+<body>
+<h1>Welcome!</h1>
+<br/>
+<a th:href="@{/api/auth/signup}">Sign Up!</a>
+<br/>
+<a th:href="@{/api/auth/signin}">Sign In!</a>
+<br/>
+<a th:href="@{/api/user/update}">Update Credentials</a>
+<br/>
+<a th:href="@{/home}">Request Credit!</a>
+<br/>
+<a th:href="@{/home}">Check Credit Status</a>
+<br/>
+<a th:href="@{/api/auth/signout}">Sign Out</a>
+<br/>
+<a th:href="@{/user/delete}">Delete Account</a>
+
+</body>
+</html>

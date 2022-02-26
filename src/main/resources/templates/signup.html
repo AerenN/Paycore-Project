@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Credit App!</title>
+</head>
+<body>
+    <h1>Sign-up Form</h1>
+
+    <form th:action="@{/api/auth/signup}" th:object="${loginForm}" method="post">
+
+        <label for="username">Name & Surname</label>
+        <input type="text" id="firstNameLastName" name="firstNameLastName" autofocus="autofocus"/>
+
+        <br/>
+
+        <label for="username">Identification Number</label>
+        <input type="text" id="username" name="username" autofocus="autofocus"/>
+
+        <br/>
+
+        <label for="phoneNumber">Phone Number</label>
+        <input type="text" id="phoneNumber" name="phone Number" autofocus="autofocus"/>
+
+        <br/>
+
+        <label for="income">Income</label>
+        <input type="text" id="income" name="income" autofocus="autofocus"/>
+
+        <br/>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password"/>
+
+        <br/>
+
+        <label for="role">Authority Level</label>
+        <input type="text" id="role" name="role" autofocus="autofocus"/>
+
+        <br/>
+        <input type="submit" value="Sign Up"/>
+
+
+    </form>
+
+</body>
+</html>
