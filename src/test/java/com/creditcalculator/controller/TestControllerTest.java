@@ -1,40 +1,48 @@
 package com.creditcalculator.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration
-@WebAppConfiguration()
-@AutoConfigureMockMvc
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
 class TestControllerTest {
 
-    @Autowired
-    private WebApplicationContext wac;
-
     private MockMvc mockMvc;
+    private TestController testController;
 
     @BeforeEach
     void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+        testController = new TestController();
+        JacksonTester.initFields(this, new ObjectMapper());
+        // MockMvc standalone approach
+        mockMvc = MockMvcBuilders.standaloneSetup(testController)
+                .build();
+    }
+    @Test
+    void testAllAccess() throws Exception {
+        // init
+        String expectedMessage = "Public Content.";
+        // when
+        MockHttpServletResponse response = mockMvc.perform(get("/api/test/all")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andReturn().getResponse();
+
+        // then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getContentAsString().equals(expectedMessage));
     }
 
-    @Test
-    void getAccount() throws Exception {
-        mockMvc.perform(get("/api/test/all")).andExpect(status().isOk());
-    }
 }
